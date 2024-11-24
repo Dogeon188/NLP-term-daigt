@@ -1,0 +1,18 @@
+# Math
+numpy==1.26.4
+
+# Data
+datasets==2.21.0
+kaggle==1.6.17
+pandas==2.2.3
+tokenizers==0.20.1
+
+# Model
+torch==2.5.1
+torchmetrics==1.5.1
+transformers==4.46.1
+
+# Plot
+ipykernel==6.29.5
+tqdm==4.66.6
+matplotlib==3.9.2
