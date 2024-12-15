@@ -3,8 +3,8 @@ numpy==1.26.4
 
 # Data
 datasets==2.21.0
-kaggle==1.6.17
-kagglehub==0.3.4
+kaggle
+kagglehub
 pandas==2.2.3
 scikit-learn==1.5.2
 tokenizers==0.20.1
