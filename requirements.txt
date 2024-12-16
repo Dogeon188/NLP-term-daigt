@@ -6,13 +6,13 @@ datasets==2.21.0
 kaggle
 kagglehub
 pandas==2.2.3
-scikit-learn==1.5.2
-tokenizers==0.20.1
 
 # Model
+scikit-learn==1.5.2
 torch==2.5.1
+tokenizers>=0.21.0
 torchmetrics==1.5.1
-transformers==4.46.1
+transformers==4.47.0
 
 # Plot
 ipykernel==6.29.5
