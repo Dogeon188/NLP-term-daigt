@@ -1,3 +1,5 @@
+python-dotenv==1.0.1
+
 # Math
 numpy==1.26.4
 
