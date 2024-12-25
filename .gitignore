@@ -2,3 +2,5 @@ data/
 *.csv
 .env
 .DS_Store
+.venv
+src_for_comp
