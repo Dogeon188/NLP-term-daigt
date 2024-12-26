@@ -4,3 +4,16 @@ data/
 .DS_Store
 .venv
 src_for_comp
+
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.synctex(busy)
+*.pdf
+*.cls
+*.bbl
+*.blg
+*.out
+*.log
