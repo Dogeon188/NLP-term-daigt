@@ -11,35 +11,39 @@
 
 \begin{document}
 
-\title{Know your enemy and know yourself}
-% \subtitle{Detecting AI generated text with source model prediction}
+\title{Know your enemy and know yourself \\ {\LARGE Detecting AI generated text with source model prediction}}
+
 \author{
   \IEEEauthorblockN{Bo-Yi Mao}
   \IEEEauthorblockA{
     \textit{Dept. of Computer Science} \\
     \textit{National Tsing-Hua University}\\
-    Hsinchu, Taiwan
+    Hsinchu, Taiwan \\
+    Stu. ID 111062209
   }
   \and
-  \IEEEauthorblockN{Aurick}
+  \IEEEauthorblockN{Aurick Daniel Franciskus Setiadi}
   \IEEEauthorblockA{
     \textit{Dept. of Computer Science} \\
     \textit{National Tsing-Hua University}\\
-    Hsinchu, Taiwan
+    Hsinchu, Taiwan \\
+    Stu. ID 111000177
   }
   \and
-  \IEEEauthorblockN{Kenneth}
+  \IEEEauthorblockN{Kenneth Chandra}
   \IEEEauthorblockA{
     \textit{Dept. of Computer Science} \\
     \textit{National Tsing-Hua University}\\
-    Hsinchu, Taiwan
+    Hsinchu, Taiwan \\
+    Stu. ID 110006161
   }
   \and
   \IEEEauthorblockN{Yi-Hsueh Chu}
   \IEEEauthorblockA{
     \textit{Dept. of Computer Science} \\
     \textit{National Tsing-Hua University}\\
-    Hsinchu, Taiwan
+    Hsinchu, Taiwan \\
+    Stu. ID 111062332
   }
 }
 
@@ -57,6 +61,28 @@ Transformer-based classification models often struggle to generalize from the PE
 
 One notable success from Bamba et al. \cite{1stplace} involved increasing both the diversity and size of the training dataset. Yhey achieved a significant improvement in accuracy by leveraging a diverse and extensive dataset. They utilized a combination of AI-generated and human-written texts, which helped in training robust models capable of distinguishing between the two, eventually winning the competition in first place, with a score of 0.988.
 
+Xu \cite{2ndplace} proved that ensemble approach could lead to higher accuracy score. By training 6 models with each having their unique combination of dataset and model type (DeBERTa v3 large or DeBERTa large), Xu obtained the prediction from each model and averaged them to get the final prediction. This approach is able to achieve a higher accuracy score than each model individually, as shown in Figure \ref{fig:xu_table}.
+
+\begin{figure}[htbp]
+  \centerline{\includegraphics[width=\columnwidth]{figs/xu_table.png}}
+  \caption{Comparison of different methods used by Xu \cite{2ndplace} and their impact on the leaderboard accuracy score.}
+  \label{fig:xu_table}
+\end{figure}
+
+Xu also demonstrated the importance of pretraining, fine-tuning, and larger models. A model pretrained on a larger dataset and fine-tuned on a smaller dataset could achieve a higher accuracy score than only fine-tuning or pretraining, as shown in Figure \ref{fig:xu_bar_train}. Larger models also tend to have a higher accuracy score than smaller models, as shown in Figure \ref{fig:xu_bar_size}.
+
+\begin{figure}[htbp]
+  \centerline{\includegraphics[width=\columnwidth]{figs/xu_bar_train.png}}
+  \caption{Comparison of different training methods used by Xu \cite{2ndplace} and their impact on the leaderboard accuracy score.}
+  \label{fig:xu_bar_train}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centerline{\includegraphics[width=\columnwidth]{figs/xu_bar_size.png}}
+  \caption{Comparison of different model sizes used by Xu \cite{2ndplace} and their impact on the leaderboard accuracy score.}
+  \label{fig:xu_bar_size}
+\end{figure}
+
 Another work from Day \cite{5thplace} used 500,000 documents from The Pile and another 500,000 plausible continuations generated with local LLMs, and resulted in a sizeable increase in accuracy; in fact, they submitted a DeBERTa-v3 LLM at a context length of 1024 tokens with scores of 0.96 for individual models and 0.963 for an ensemble. Compared to the models trained on the PERSUADE corpus, which scored around 0.75, this is a significant improvement.
 
 However, Cozzolino \cite{6thplace} took a different approach by using synthetic features such as entropy, surprisal, and average word length. By merely focusing on these features, Cozzolino was able to achieve a competitive score in the DAIGT competition. As shown in Figure \ref{fig:cozzolino}, his method demonstrated that even without relying heavily on large datasets or complex models, it is possible to achieve good performance by carefully selecting and engineering features that capture the nuances of AI-generated text.
@@ -68,6 +94,8 @@ However, Cozzolino \cite{6thplace} took a different approach by using synthetic 
 \end{figure}
 
 \section{Methodology}
+
+The importance of data preparation and preprocessing cannot be overstated. Utilizing raw data provided by the competition organizers without any preprocessing resulted in a plain DeBERTa model achieving only a 0.66 private score and a 0.52 public score on the leaderboard. This demonstrates that even powerful models like DeBERTa can underperform if the features are not effectively extracted and utilized.
 
 Our methodology overall consists of three steps. First, the data is prepared and preprocessed ahead of time, published to Kaggle, and ready to be used. Second, certain representation learning models perform feature extraction on raw data. Finally, binary/multi-class classification is performed via various machine learning methods.
 
@@ -124,7 +152,7 @@ Huang et al. \cite{huang2023gpt} proposed GPT-based Arithmetic Coding (GPT-AC) t
   \item \textbf{Average word length:} The average length of the words in the text data, indicating the complexity of the text.
 \end{itemize}
 
-To use the entropy and surprisal-based features, however, Cozzolino utilized the statistical properties of the data, including median, standard deviation, mean, and quantiles. These features were then used to train a SVM classifier, which achieved a competitive score in the DAIGT competition.
+To use the entropy-based features, Cozzolino utilized the statistical properties of the data and used synthetic-based entropy including median, standard deviation, mean, and quantiles. The entropy itself is computed through a pre-trained LLM Phi-2 under Microsoft. These selection of his features extraction are his best result which could achieve the best score accuracy using DAIGT dataset. However, the DAIGT dataset's purpose is only to measure the features performance, as for the training he will not use the DAIGT dataset. These features were then used to train a SVM classifier using the organizer dataset, which achieved a competitive score in the DAIGT competition.
 
 \subsubsection{LLM Embedding}
 \label{sec:llm_embedding}
@@ -159,7 +187,7 @@ With the embedding vector generated as described in Section \ref{sec:llm_embeddi
 
 \subsubsection{Ensemble}
 
-The ensemble approach involved a weighted averaging of probabilities generated by individual classifiers. This allowed the models to compensate for each other's weaknesses and collectively improve accuracy. Beside using different model types, different training data can also be used to train the model.
+The ensemble approach involved a weighted averaging of probabilities generated by individual classifiers. This allowed the models to compensate for each other's weaknesses and collectively improve accuracy. Beside using different model types, different training data can also be used to train the model. As shown by Xu \cite{2ndplace}, this approach can lead to a higher accuracy score than each model individually.
 
 \section{Experiments}
 
@@ -215,7 +243,9 @@ Note that the accuracy for public and private scores differs significantly and c
 
 \subsection{Submission Results}
 
-As the DAIGT competition is a code competition, we have to submit our code to Kaggle for evaluation. We have tested various models and hyperparameters, with some of the best results shown in Table \ref{tab:models}. The best model we have found is\dots
+As the DAIGT competition is a code competition, we have to submit our code to Kaggle for evaluation. We have tested various models and hyperparameters, with some of the best results shown in Table \ref{tab:models}. The best model we have found is the one modified from Xu's \cite{2ndplace} solution, which achieved a \textbf{private score of 0.983412} and a \textbf{public score of 0.967298}. This model is an ensemble of DeBERTa models pretrained and fine-tuned on the DAIGT dataset.
+
+It is worth noting that training the Mistral7B v0.1 model presented additional challenges due to its complexity and resource requirements. Specifically, we were unable to fully utilize its potential due to the high computation constraints and lack of available resources. For instance, the model was trained with \texttt{max\_steps} set to 800 steps. Despite such constraints, Mistral’s model still achieved an accuracy of 87\% and 79\% for public and private scores respectively.
 
 \begin{table*}[htbp]
   \centering
@@ -234,6 +264,11 @@ As the DAIGT competition is a code competition, we have to submit our code to Ka
 
     Ours & Mistral & Mistral7b & Mistral7b & - & 0.702772 & 0.854477 \\
     Base & Mistral & Mistral7b & Mistral7b & - & 0.53 & 0.54 \\
+
+    Base + DAIGT & DeBERTa & DeBERTa & DeBERTa 3 Large x4 + DeBERTa Large x2 & Second rank pretrained & 0.983412 & 0.967298 \\
+    Base + DAIGT & Phi-2 & extracting entropy & SVM & RBF kernel, $\gamma$ = 0.01, $\nu$ = 0.01 & 0.946589 & 0.891023 \\
+    Base + DAIGT & Phi-2 & extracting entropy & SVM & RBF kernel, $\gamma$ = 0.01, $\nu$ = 0.05 & 0.906441 & 0.892408 \\
+
     \hline
   \end{tabular}
 
@@ -246,6 +281,8 @@ As the DAIGT competition is a code competition, we have to submit our code to Ka
     Multi-class ensemble & Ensemble of linear classifier, multinomial naive bayes, and LightGBM, classifying source model. \\
     Binary ensemble & Ensemble of linear classifier, multinomial naive bayes, and LightGBM, with binary classification. \\
     Mistral7b & Mistral7b model finetuned for binary classification. \\
+    DeBERTa & DeBERTa model finetuned for binary classification. \\
+    SVM & Support Vector Machine classifier. \\
     \hline
   \end{tabular}
 
@@ -257,6 +294,7 @@ As the DAIGT competition is a code competition, we have to submit our code to Ka
     \hline
     Ours & Our dataset, as described in Section \ref{sec:data}. \\
     Base & The base dataset provided by the competition. \\
+    DAIGT & The unofficial DAIGT dataset generated by D. Kłeczek \cite{daigtv4}. \\
     \hline
   \end{tabular}
 \end{table*}
