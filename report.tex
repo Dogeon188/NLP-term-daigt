@@ -22,20 +22,20 @@
     Stu. ID 111062209
   }
   \and
-  \IEEEauthorblockN{Aurick Daniel Franciskus Setiadi}
-  \IEEEauthorblockA{
-    \textit{Dept. of Computer Science} \\
-    \textit{National Tsing-Hua University}\\
-    Hsinchu, Taiwan \\
-    Stu. ID 111000177
-  }
-  \and
   \IEEEauthorblockN{Kenneth Chandra}
   \IEEEauthorblockA{
     \textit{Dept. of Computer Science} \\
     \textit{National Tsing-Hua University}\\
     Hsinchu, Taiwan \\
     Stu. ID 110006161
+  }
+  \and
+  \IEEEauthorblockN{Aurick Daniel F. Setiadi}
+  \IEEEauthorblockA{
+    \textit{Dept. of Computer Science} \\
+    \textit{National Tsing-Hua University}\\
+    Hsinchu, Taiwan \\
+    Stu. ID 111000177
   }
   \and
   \IEEEauthorblockN{Yi-Hsueh Chu}
@@ -263,7 +263,7 @@ It is worth noting that training the Mistral7B v0.1 model presented additional c
     Ours & BPE & TF-IDF & Binary ensemble & \texttt{tokenizer\_lower}=\texttt{True} & 0.658713 & 0.894109 \\
 
     Ours & Mistral & Mistral7b & Mistral7b & - & 0.702772 & 0.854477 \\
-    Base & Mistral & Mistral7b & Mistral7b & - & 0.53 & 0.54 \\
+    Base & Mistral & Mistral7b & Mistral7b & - & 0.528327 & 0.530082 \\
 
     Base + DAIGT & DeBERTa & DeBERTa & DeBERTa 3 Large x4 + DeBERTa Large x2 & Second rank pretrained & 0.983412 & 0.967298 \\
     Base + DAIGT & Phi-2 & extracting entropy & SVM & RBF kernel, $\gamma$ = 0.01, $\nu$ = 0.01 & 0.946589 & 0.891023 \\
