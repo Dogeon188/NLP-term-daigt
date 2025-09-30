@@ -11,7 +11,7 @@ src_for_comp
 *.fls
 *.synctex.gz
 *.synctex(busy)
-*.pdf
+# *.pdf
 *.cls
 *.bbl
 *.blg
